@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body,
+#__nuxt {
+  height: 100%;
+  line-height: 1;
+  font-size: 16px;
+  color: #000000;
+  font-weight: 400;
+}
+.__gallary-option {
+  width: 700px;
+  margin: 0 auto;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+img {
+  max-width: 100%;
+  min-height: 100%;
+}
