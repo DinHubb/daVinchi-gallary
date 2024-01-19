@@ -1,6 +1,6 @@
 <script setup>
-import { ref } from "vue";
-const data = ref([
+import { ref, computed } from "vue";
+const data = [
   {
     id: Date.now(),
     url: "https://static.tildacdn.com/tild3033-3964-4437-b735-323437393166/IMG_3082.jpg",
@@ -202,81 +202,361 @@ const data = ref([
     price: "10 000",
     isFavorite: false,
   },
-]);
+];
 
 const search = ref("");
+search.value.toLowerCase();
+const selectedSeason = ref("all");
+const selectedSize = ref("");
+const selectedLocation = ref("");
+const selectedNature = ref("");
+
+const filteredData = computed(() =>
+  data.filter((el) => {
+    if (search.value) {
+      return (
+        el.title.toLowerCase().includes(search.value) ||
+        el.text.toLowerCase().includes(search.value) ||
+        el.price.toLowerCase().replace(/\s/g, "").includes(search.value.trim())
+      );
+    }
+
+    if (selectedSeason.value) {
+      return (
+        selectedSeason.value === "all" ||
+        el.title.toLowerCase().includes(selectedSeason.value)
+      );
+    }
+
+    if (selectedSize.value) {
+      return el.text.replace(/\D/g, "").includes(selectedSize.value);
+    }
+
+    if (selectedLocation.value) {
+      return el.title.toLowerCase().includes(selectedLocation.value);
+    }
+
+    if (selectedNature.value) {
+      return el.title.toLowerCase().includes(selectedNature.value);
+    }
+  })
+);
+
+const filterBySeason = (season) => {
+  selectedSeason.value = season.toLowerCase();
+  selectedSize.value = "";
+  selectedLocation.value = "";
+  return;
+};
+
+const filterBySize = (size) => {
+  selectedSize.value = size;
+  selectedSeason.value = "";
+  selectedLocation.value = "";
+  return;
+};
+
+const filterLocation = (evt) => {
+  const { textContent } = evt.target;
+  selectedLocation.value = textContent
+    .toLowerCase()
+    .replace(/\s/g, "")
+    .slice(0, -1);
+  selectedLocation.value === "лесноеозер"
+    ? (selectedLocation.value = "лесном озере")
+    : "";
+  selectedSeason.value = "";
+  selectedSize.value = "";
+  return;
+};
+
+const filterNature = (evt) => {
+  const { textContent } = evt.target;
+  selectedNature.value = textContent
+    .toLowerCase()
+    .replace(/\s/g, "")
+    .slice(0, -1);
+  selectedNature.value === "ле" ? (selectedNature.value = "лес") : "";
+  selectedSeason.value = "";
+  selectedSize.value = "";
+  selectedLocation.value = "";
+  return;
+};
 </script>
 
 <template>
   <div class="flex justify-end mb-6">
     <div class="relative flex items-center">
       <input
-        class="border-2 rounded px-3 py-1"
+        class="border-2 rounded px-3 py-1 z-20 bg-white/10"
         placeholder="поиск"
         type="text"
         v-model="search"
       />
-      <button class="absolute right-3">
-        <svg
-          width="18px"
-          height="18px"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 88 88"
-        >
-          <path
-            fill="#757575"
-            d="M85 31.1c-.5-8.7-4.4-16.6-10.9-22.3C67.6 3 59.3 0 50.6.6c-8.7.5-16.7 4.4-22.5 11-11.2 12.7-10.7 31.7.6 43.9l-5.3 6.1-2.5-2.2-17.8 20 9 8.1 17.8-20.2-2.1-1.8 5.3-6.1c5.8 4.2 12.6 6.3 19.3 6.3 9 0 18-3.7 24.4-10.9 5.9-6.6 8.8-15 8.2-23.7zM72.4 50.8c-9.7 10.9-26.5 11.9-37.6 2.3-10.9-9.8-11.9-26.6-2.3-37.6 4.7-5.4 11.3-8.5 18.4-8.9h1.6c6.5 0 12.7 2.4 17.6 6.8 5.3 4.7 8.5 11.1 8.9 18.2.5 7-1.9 13.8-6.6 19.2z"
-          ></path>
-        </svg>
-      </button>
+      <svg
+        class="absolute right-3"
+        width="18px"
+        height="18px"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 88 88"
+      >
+        <path
+          fill="#757575"
+          d="M85 31.1c-.5-8.7-4.4-16.6-10.9-22.3C67.6 3 59.3 0 50.6.6c-8.7.5-16.7 4.4-22.5 11-11.2 12.7-10.7 31.7.6 43.9l-5.3 6.1-2.5-2.2-17.8 20 9 8.1 17.8-20.2-2.1-1.8 5.3-6.1c5.8 4.2 12.6 6.3 19.3 6.3 9 0 18-3.7 24.4-10.9 5.9-6.6 8.8-15 8.2-23.7zM72.4 50.8c-9.7 10.9-26.5 11.9-37.6 2.3-10.9-9.8-11.9-26.6-2.3-37.6 4.7-5.4 11.3-8.5 18.4-8.9h1.6c6.5 0 12.7 2.4 17.6 6.8 5.3 4.7 8.5 11.1 8.9 18.2.5 7-1.9 13.8-6.6 19.2z"
+        ></path>
+      </svg>
     </div>
   </div>
   <div class="flex gap-6">
     <div class="w-[15%]">
-      <ul class="flex flex-col gap-4">
+      <ul class="flex flex-col gap-4 text-zinc-600">
         <li>
           <ul>
-            <li><button>Все</button></li>
-            <li><button>Весна</button></li>
-            <li><button>Лето</button></li>
-            <li><button>Осень</button></li>
-            <li><button>Зима</button></li>
+            <li>
+              <button
+                :class="selectedSeason === 'all' ? 'font-bold text-black' : ''"
+                @click="filterBySeason('all')"
+              >
+                Все
+              </button>
+            </li>
+            <li>
+              <button
+                :class="selectedSeason === 'вес' ? 'font-bold text-black' : ''"
+                @click="filterBySeason('вес')"
+              >
+                Весна
+              </button>
+            </li>
+            <li>
+              <button
+                :class="selectedSeason === 'лет' ? 'font-bold text-black' : ''"
+                @click="filterBySeason('лет')"
+              >
+                Лето
+              </button>
+            </li>
+            <li>
+              <button
+                :class="selectedSeason === 'осен' ? 'font-bold text-black' : ''"
+                @click="filterBySeason('осен')"
+              >
+                Осень
+              </button>
+            </li>
+            <li>
+              <button
+                :class="selectedSeason === 'зим' ? 'font-bold text-black' : ''"
+                @click="filterBySeason('зим')"
+              >
+                Зима
+              </button>
+            </li>
           </ul>
         </li>
         <li>
-          <strong class="inline-block mb-2">ВхШ</strong>
+          <strong class="inline-block mb-2 text-black">ВхШ</strong>
           <ul>
-            <li><button>18х24см</button></li>
-            <li><button>25см х 35см</button></li>
-            <li><button>25х40см</button></li>
-            <li><button>30см х 40см</button></li>
-            <li><button>30х35х</button></li>
-            <li><button>30х45см</button></li>
+            <li>
+              <button
+                :class="selectedSize === '1824' ? 'font-bold text-black' : ''"
+                @click="filterBySize('1824')"
+              >
+                18х24см
+              </button>
+            </li>
+            <li>
+              <button
+                :class="selectedSize === '2535' ? 'font-bold text-black' : ''"
+                @click="filterBySize('2535')"
+              >
+                25см х 35см
+              </button>
+            </li>
+            <li>
+              <button
+                :class="selectedSize === '2540' ? 'font-bold text-black' : ''"
+                @click="filterBySize('2540')"
+              >
+                25х40см
+              </button>
+            </li>
+            <li>
+              <button
+                :class="selectedSize === '3040' ? 'font-bold text-black' : ''"
+                @click="filterBySize('3040')"
+              >
+                30см х 40см
+              </button>
+            </li>
+            <li>
+              <button
+                :class="selectedSize === '3545' ? 'font-bold text-black' : ''"
+                @click="filterBySize('3545')"
+              >
+                35х45х
+              </button>
+            </li>
+            <li>
+              <button
+                :class="selectedSize === '3045' ? 'font-bold text-black' : ''"
+                @click="filterBySize('3045')"
+              >
+                30х45см
+              </button>
+            </li>
           </ul>
         </li>
         <li>
-          <strong class="inline-block mb-2">локация</strong>
+          <strong class="inline-block mb-2 text-black">локация</strong>
           <ul>
-            <li><button>Дубна</button></li>
-            <li><button>Катунь</button></li>
-            <li><button>Клязьма</button></li>
-            <li><button>Лесное озеро</button></li>
-            <li><button>Манжерок</button></li>
-            <li><button>Сартакпая</button></li>
-            <li><button>Тихвин</button></li>
-            <li><button>Че-Чкыш</button></li>
-            <li><button>Чике-Таман</button></li>
-            <li><button>Яуза</button></li>
+            <li>
+              <button
+                :class="
+                  selectedLocation === 'дубн' ? 'font-bold text-black' : ''
+                "
+                @click="filterLocation"
+              >
+                Дубна
+              </button>
+            </li>
+            <li>
+              <button
+                :class="
+                  selectedLocation === 'катун' ? 'font-bold text-black' : ''
+                "
+                @click="filterLocation"
+              >
+                Катунь
+              </button>
+            </li>
+            <li>
+              <button
+                :class="
+                  selectedLocation === 'клязьм' ? 'font-bold text-black' : ''
+                "
+                @click="filterLocation"
+              >
+                Клязьма
+              </button>
+            </li>
+            <li>
+              <button
+                :class="
+                  selectedLocation === 'лесном озере'
+                    ? 'font-bold text-black'
+                    : ''
+                "
+                @click="filterLocation"
+              >
+                Лесное озеро
+              </button>
+            </li>
+            <li>
+              <button
+                :class="
+                  selectedLocation === 'манжеро' ? 'font-bold text-black' : ''
+                "
+                @click="filterLocation"
+              >
+                Манжерок
+              </button>
+            </li>
+            <li>
+              <button
+                :class="
+                  selectedLocation === 'сартакпа' ? 'font-bold text-black' : ''
+                "
+                @click="filterLocation"
+              >
+                Сартакпая
+              </button>
+            </li>
+            <li>
+              <button
+                :class="
+                  selectedLocation === 'тихви' ? 'font-bold text-black' : ''
+                "
+                @click="filterLocation"
+              >
+                Тихвин
+              </button>
+            </li>
+            <li>
+              <button
+                :class="
+                  selectedLocation === 'че-чкы' ? 'font-bold text-black' : ''
+                "
+                @click="filterLocation"
+              >
+                Че-Чкыш
+              </button>
+            </li>
+            <li>
+              <button
+                :class="
+                  selectedLocation === 'чике-тама' ? 'font-bold text-black' : ''
+                "
+                @click="filterLocation"
+              >
+                Чике-Таман
+              </button>
+            </li>
+            <li>
+              <button
+                :class="
+                  selectedLocation === 'яуз' ? 'font-bold text-black' : ''
+                "
+                @click="filterLocation"
+              >
+                Яуза
+              </button>
+            </li>
           </ul>
         </li>
         <li>
-          <strong class="inline-block mb-2">природа</strong>
+          <strong class="inline-block mb-2 text-black">природа</strong>
           <ul>
-            <li><button>озеро</button></li>
-            <li><button>лес</button></li>
-            <li><button>лёд</button></li>
-            <li><button>река</button></li>
-            <li><button>горы</button></li>
+            <li>
+              <button
+                :class="selectedNature === 'озер' ? 'font-bold text-black' : ''"
+                @click="filterNature"
+              >
+                озеро
+              </button>
+            </li>
+            <li>
+              <button
+                :class="selectedNature === 'лес' ? 'font-bold text-black' : ''"
+                @click="filterNature"
+              >
+                лес
+              </button>
+            </li>
+            <li>
+              <button
+                :class="selectedNature === 'лё' ? 'font-bold text-black' : ''"
+                @click="filterNature"
+              >
+                лёд
+              </button>
+            </li>
+            <li>
+              <button
+                :class="selectedNature === 'рек' ? 'font-bold text-black' : ''"
+                @click="filterNature"
+              >
+                река
+              </button>
+            </li>
+            <li>
+              <button
+                :class="selectedNature === 'гор' ? 'font-bold text-black' : ''"
+                @click="filterNature"
+              >
+                горы
+              </button>
+            </li>
           </ul>
         </li>
       </ul>
@@ -285,7 +565,7 @@ const search = ref("");
       <div class="grid gap-4 grid-cols-4">
         <div
           class="relative transition duration-300 hover:scale-105"
-          v-for="item in data"
+          v-for="item in filteredData"
           :key="item.id"
         >
           <a href="" class="flex flex-col h-full">
@@ -294,6 +574,7 @@ const search = ref("");
                 :src="item.url"
                 :alt="item.alt"
                 class="w-full h-auto object-cover absolute top-0 left-0"
+                loading="lazy"
               />
             </div>
             <div class="flex-[1_1_auto] py-4">
