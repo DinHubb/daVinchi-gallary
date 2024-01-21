@@ -1,7 +1,7 @@
 <script setup></script>
 
 <template>
-  <ul class="flex flex-col gap-4 list-disc text-lg py-6">
+  <ul class="flex flex-col gap-4 list-disc text-lg py-6 px-4">
     <li>
       Оформить заказ можно через корзину, либо связавшись с нами через
       мессенджеры или почту.
