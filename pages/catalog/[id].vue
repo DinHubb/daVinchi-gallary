@@ -7,15 +7,24 @@ import lgZoom from "lightgallery/plugins/zoom";
 import "lightgallery/css/lightgallery.css";
 import "lightgallery/css/lg-zoom.css";
 import "lightgallery/css/lg-thumbnail.css";
+import { storeToRefs } from "pinia";
+import { useCartStore } from "~/store/cart";
 
 const plugins = [lgThumbnail, lgZoom];
-
 const route = useRoute();
 const { id } = route.params;
+const { toggleCart, cart } = useCartStore();
 
-const filteredData = computed(() => {
-  return data.filter((el) => el.id == id);
-});
+const filteredData = computed(() => data.filter((el) => el.id == id));
+
+const handleAddToCart = (product) => {
+  toggleCart(product);
+};
+
+const isInCart = (productId) => cart.some((p) => p.id === productId);
+// const localStorageCart = localStorage.getItem("cart");
+// localStorageCart ? JSON.parse(localStorageCart) : null;
+// console.log(localStorageCart);
 </script>
 
 <template>
@@ -25,11 +34,7 @@ const filteredData = computed(() => {
       v-for="item in filteredData"
       :key="item.id"
     >
-      <lightgallery
-        :settings="{ speed: 500, plugins: plugins }"
-        :onInit="onInit"
-        :onBeforeSlide="onBeforeSlide"
-      >
+      <lightgallery :settings="{ speed: 500, plugins: plugins }">
         <div class="relative w-[560px] h-[560px]" :data-src="item.url">
           <img
             class="w-full h-full object-cover absolute top-0 left-0 cursor-zoom-in"
@@ -50,7 +55,8 @@ const filteredData = computed(() => {
           <li>природа: {{ item.natural }}</li>
         </ul>
         <button
-          class="self-start text-white bg-gray-800 hover:bg-blue-800 active:opacity-55 font-medium rounded-lg text-sm px-6 py-2.5 text-center inline-flex items-center me-2"
+          class="self-start text-white bg-gray-800 hover:bg-blue-800 active:opacity-55 font-medium rounded-lg text-sm px-6 py-2.5 text-center inline-flex items-center mr-2"
+          @click="handleAddToCart(item)"
         >
           <svg
             class="w-3.5 h-3.5 me-2"
@@ -63,7 +69,7 @@ const filteredData = computed(() => {
               d="M15 12a1 1 0 0 0 .962-.726l2-7A1 1 0 0 0 17 3H3.77L3.175.745A1 1 0 0 0 2.208 0H1a1 1 0 0 0 0 2h.438l.6 2.255v.019l2 7 .746 2.986A3 3 0 1 0 9 17a2.966 2.966 0 0 0-.184-1h2.368c-.118.32-.18.659-.184 1a3 3 0 1 0 3-3H6.78l-.5-2H15Z"
             />
           </svg>
-          Купить
+          {{ isInCart(item.id) ? "Убрать из корзины" : "В карзину" }}
         </button>
       </div>
     </div>

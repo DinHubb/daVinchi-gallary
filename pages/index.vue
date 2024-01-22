@@ -9,15 +9,15 @@ const plugins = [lgThumbnail, lgZoom];
 </script>
 
 <template>
-  <p class="self-center text-center mb-12 text-3xl font-semibold text-gray-800">
+  <h1
+    class="self-center text-center mb-12 text-3xl font-semibold text-gray-800"
+  >
     Дабро пожаловать в daVinci Gallary
-  </p>
+  </h1>
   <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
     <lightgallery
       class="grid gap-4"
       :settings="{ speed: 500, plugins: plugins }"
-      :onInit="onInit"
-      :onBeforeSlide="onBeforeSlide"
     >
       <div
         class="transition duration-200 hover:scale-105"
@@ -53,8 +53,6 @@ const plugins = [lgThumbnail, lgZoom];
     <lightgallery
       class="grid gap-4"
       :settings="{ speed: 500, plugins: plugins }"
-      :onInit="onInit"
-      :onBeforeSlide="onBeforeSlide"
     >
       <div
         class="transition duration-200 hover:scale-105"
@@ -90,8 +88,6 @@ const plugins = [lgThumbnail, lgZoom];
     <lightgallery
       class="grid gap-4"
       :settings="{ speed: 500, plugins: plugins }"
-      :onInit="onInit"
-      :onBeforeSlide="onBeforeSlide"
     >
       <div
         class="transition duration-200 hover:scale-105"
@@ -127,8 +123,6 @@ const plugins = [lgThumbnail, lgZoom];
     <lightgallery
       class="grid gap-4"
       :settings="{ speed: 500, plugins: plugins }"
-      :onInit="onInit"
-      :onBeforeSlide="onBeforeSlide"
     >
       <div
         class="transition duration-200 hover:scale-105"
