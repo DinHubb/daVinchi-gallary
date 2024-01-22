@@ -6,7 +6,7 @@ export const useCartStore = defineStore("cart", {
   }),
   getters: {
     cartCount: (state) => state.cart.length,
-    cartOrder: (state) => state.cart,
+    cartOrders: (state) => state.cart,
   },
   actions: {
     toggleCart(product) {

@@ -11,6 +11,9 @@
     "size": "30см x 45см",
     "natural": "лёд",
     "price": "12 000",
+    "staticPrice": "12000",
+    "maxQuantity": "4",
+    "quantity": "1",
     "isFavorite": false
   },
   {
@@ -25,6 +28,9 @@
     "natural": "лёд",
     "isIntro": false,
     "price": "16 000",
+    "staticPrice": "16000",
+    "maxQuantity": "4",
+    "quantity": "1",
     "isFavorite": false
   },
   {
@@ -39,6 +45,9 @@
     "natural": "лес",
     "isIntro": false,
     "price": "10 000",
+    "staticPrice": "10000",
+    "maxQuantity": "4",
+    "quantity": "1",
     "isFavorite": false
   },
   {
@@ -53,6 +62,9 @@
     "natural": "лес",
     "isIntro": false,
     "price": "13 000",
+    "staticPrice": "13000",
+    "maxQuantity": "4",
+    "quantity": "1",
     "isFavorite": false
   },
   {
@@ -67,6 +79,9 @@
     "natural": "лес",
     "isIntro": false,
     "price": "11 000",
+    "staticPrice": "11000",
+    "maxQuantity": "4",
+    "quantity": "1",
     "isFavorite": false
   },
   {
@@ -81,6 +96,9 @@
     "natural": "озеро",
     "isIntro": false,
     "price": "9 000",
+    "staticPrice": "9000",
+    "maxQuantity": "4",
+    "quantity": "1",
     "isFavorite": false
   },
   {
@@ -95,6 +113,9 @@
     "natural": "река",
     "isIntro": false,
     "price": "10 000",
+    "staticPrice": "10000",
+    "maxQuantity": "4",
+    "quantity": "1",
     "isFavorite": false
   },
   {
@@ -109,6 +130,9 @@
     "natural": "река",
     "isIntro": false,
     "price": "8 000",
+    "staticPrice": "8000",
+    "maxQuantity": "4",
+    "quantity": "1",
     "isFavorite": false
   },
   {
@@ -123,6 +147,9 @@
     "natural": "озеро",
     "isIntro": false,
     "price": "15 000",
+    "staticPrice": "15000",
+    "maxQuantity": "4",
+    "quantity": "1",
     "isFavorite": false
   },
   {
@@ -137,6 +164,9 @@
     "natural": "горы",
     "isIntro": false,
     "price": "9 000",
+    "staticPrice": "9000",
+    "maxQuantity": "4",
+    "quantity": "1",
     "isFavorite": false
   },
   {
@@ -151,6 +181,9 @@
     "natural": "река",
     "isIntro": false,
     "price": "15 000",
+    "staticPrice": "15000",
+    "maxQuantity": "4",
+    "quantity": "1",
     "isFavorite": false
   },
   {
@@ -165,6 +198,9 @@
     "natural": "река",
     "isIntro": false,
     "price": "9 000",
+    "staticPrice": "9000",
+    "maxQuantity": "4",
+    "quantity": "1",
     "isFavorite": false
   },
   {
@@ -179,6 +215,9 @@
     "natural": "река",
     "isIntro": false,
     "price": "10 000",
+    "staticPrice": "10000",
+    "maxQuantity": "4",
+    "quantity": "1",
     "isFavorite": false
   },
   {
@@ -193,6 +232,9 @@
     "size": "30см x 40см",
     "natural": "лес",
     "price": "10 000",
+    "staticPrice": "10000",
+    "maxQuantity": "4",
+    "quantity": "1",
     "isFavorite": false
   },
   {
@@ -207,6 +249,9 @@
     "natural": "лес",
     "isIntro": false,
     "price": "12 000",
+    "staticPrice": "12000",
+    "maxQuantity": "4",
+    "quantity": "1",
     "isFavorite": false
   },
   {
@@ -221,6 +266,9 @@
     "natural": "озеро",
     "isIntro": false,
     "price": "12 000",
+    "staticPrice": "12000",
+    "maxQuantity": "4",
+    "quantity": "1",
     "isFavorite": false
   },
   {
@@ -235,6 +283,9 @@
     "natural": "река",
     "isIntro": false,
     "price": "10 000",
+    "staticPrice": "10000",
+    "maxQuantity": "4",
+    "quantity": "1",
     "isFavorite": false
   },
   {
@@ -249,6 +300,9 @@
     "natural": "озеро",
     "isIntro": false,
     "price": "10 000",
+    "staticPrice": "10000",
+    "maxQuantity": "4",
+    "quantity": "1",
     "isFavorite": false
   },
   {
@@ -263,6 +317,9 @@
     "natural": "озеро",
     "isIntro": false,
     "price": "12 000",
+    "staticPrice": "12000",
+    "maxQuantity": "4",
+    "quantity": "1",
     "isFavorite": false
   },
   {
@@ -277,6 +334,9 @@
     "natural": "лёд",
     "isIntro": false,
     "price": "10 000",
+    "staticPrice": "10000",
+    "maxQuantity": "4",
+    "quantity": "1",
     "isFavorite": false
   },
   {
@@ -291,6 +351,9 @@
     "natural": "горы",
     "isNew": true,
     "price": "10 000",
+    "staticPrice": "10000",
+    "maxQuantity": "4",
+    "quantity": "1",
     "isFavorite": false
   },
   {
@@ -305,6 +368,9 @@
     "natural": "лёд",
     "isNew": true,
     "price": "10 000",
+    "staticPrice": "10000",
+    "maxQuantity": "4",
+    "quantity": "1",
     "isFavorite": false
   },
   {
@@ -319,6 +385,9 @@
     "natural": "лес",
     "isNew": true,
     "price": "10 000",
+    "staticPrice": "10000",
+    "maxQuantity": "4",
+    "quantity": "1",
     "isFavorite": false
   },
   {
@@ -333,6 +402,9 @@
     "natural": "озеро",
     "isNew": true,
     "price": "10 000",
+    "staticPrice": "10000",
+    "maxQuantity": "4",
+    "quantity": "1",
     "isFavorite": false
   },
   {
@@ -347,6 +419,9 @@
     "natural": "лёд",
     "isNew": true,
     "price": "10 000",
+    "staticPrice": "10000",
+    "maxQuantity": "4",
+    "quantity": "1",
     "isFavorite": false
   }
 ]

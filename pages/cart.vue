@@ -1,12 +1,56 @@
 <script setup>
 import { storeToRefs } from "pinia";
 import { useCartStore } from "~/store/cart";
+import { ref, onMounted } from "vue";
+import data from "~/static/data.json";
 
-const { cartOrder } = storeToRefs(useCartStore());
+const { cartOrders } = useCartStore();
 const { toggleCart } = useCartStore();
 
 const handleRemoveOrder = (order) => {
   toggleCart(order);
+};
+
+const changeInputQtyCart = (order) => {
+  if (order.quantity > order.maxQuantity || order.quantity < 1) return null;
+
+  let totalPrice = parseFloat(order.staticPrice * order.quantity);
+
+  let totalPriceToStr = totalPrice
+    .toString()
+    .replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+
+  return (order.price = totalPriceToStr);
+};
+
+const handleIncPrice = (order) => {
+  if (order.maxQuantity <= order.quantity) return null;
+
+  order.quantity++;
+
+  let totalPrice = parseFloat(order.staticPrice * order.quantity);
+
+  let totalPriceToStr = totalPrice
+    .toString()
+    .replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+
+  return (order.price = totalPriceToStr);
+};
+
+const handleDecPrice = (order) => {
+  if (order.quantity < 2) return null;
+
+  order.quantity--;
+
+  let totalPrice = parseFloat(
+    order.price.replaceAll(" ", "") - order.staticPrice
+  );
+
+  let totalPriceToStr = totalPrice
+    .toString()
+    .replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+
+  return (order.price = totalPriceToStr);
 };
 </script>
 
@@ -29,12 +73,21 @@ const handleRemoveOrder = (order) => {
         </thead>
         <tbody>
           <tr
+            class="text-center bg-white border-b"
+            v-if="cartOrders.length < 1"
+          >
+            <th colspan="5" class="py-12">
+              Перейдите в каталог чтобы выбрать товар
+            </th>
+          </tr>
+          <tr
+            v-else
             class="bg-white border-b"
-            v-if="cartOrder"
-            v-for="order in cartOrder"
+            v-if="cartOrders"
+            v-for="order in cartOrders"
             :key="order.id"
           >
-            <th scope="row" class="px-6 py-4 font-mediu whitespace-nowrap">
+            <th scope="row" class="px-6 py-4 font-normal whitespace-nowrap">
               <span>#{{ order.id }}</span>
               <div class="relative w-40 h-48 mt-2 overflow-hidden">
                 <img
@@ -48,36 +101,67 @@ const handleRemoveOrder = (order) => {
               {{ order.title }}
             </td>
             <td class="px-6 py-4">
-              <div class="flex items-center font-semibold">
-                <input
-                  type="text"
-                  class="w-9 h-9 p-2 text-center rounded shadow-[0_0_2px_#13212c]"
-                  value="1"
-                  size="3"
-                />
-                <div
-                  class="flex flex-col justify-center border border-[#8d8d8f] box-border border-l-0 rounded-r text-base leading-[5px] font-bold"
+              <div class="flex items-center">
+                <button
+                  class="inline-flex items-center justify-center p-1 text-sm font-medium h-6 w-6 text-black bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100"
+                  type="button"
+                  @click="handleDecPrice(order)"
                 >
-                  <button
-                    type="button"
-                    class="w-4 h-4 cursor-pointer transition-all ease-in bg-none"
-                    @click="handleIncPrice(order.price)"
+                  <svg
+                    class="w-3 h-3"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 18 2"
                   >
-                    +
-                  </button>
-                  <button
-                    type="button"
-                    class="w-4 h-4 cursor-pointer transition-all ease-in bg-none border-t border-[#8d8d8f]"
-                    @click="handleDecPrice(order.price)"
-                  >
-                    -
-                  </button>
+                    <path
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M1 1h16"
+                    />
+                  </svg>
+                </button>
+                <div class="ms-3">
+                  <input
+                    type="number"
+                    max="4"
+                    min="1"
+                    id="first_product"
+                    class="bg-gray-50 w-14 border border-gray-300 text-black text-sm rounded-lg focus:border-blue-500 block px-2.5 py-1"
+                    v-model="order.quantity"
+                    @change.key.enter="changeInputQtyCart(order)"
+                  />
                 </div>
+                <button
+                  class="inline-flex items-center justify-center h-6 w-6 p-1 ms-3 text-sm font-medium text-black bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100"
+                  type="button"
+                  @click="handleIncPrice(order)"
+                >
+                  <svg
+                    class="w-3 h-3"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 18 18"
+                  >
+                    <path
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M9 1v16M1 9h16"
+                    />
+                  </svg>
+                </button>
               </div>
             </td>
-            <td class="px-6 py-4 text-black font-medium">{{ order.price }}р</td>
+            <td class="px-6 py-4 text-black font-medium text-nowrap">
+              {{ order.price }}р
+            </td>
             <td class="px-6 py-4 text-center">
-              <button class="mt-2" @click="handleRemoveOrder(order)">
+              <button class="mt-2 min-w-7" @click="handleRemoveOrder(order)">
                 <img
                   width="26px"
                   height="26px"
