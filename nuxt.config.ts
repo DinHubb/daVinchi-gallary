@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
   devtools: { enabled: false },
   ssr: false,
-  modules: ["@pinia/nuxt"],
+  modules: ["@pinia/nuxt", "maz-ui/nuxt"],
   buildModules: ["swiper/nuxt", "nuxt-vite"],
   plugins: [{ src: "~/plugins/lightgallery.js", mode: "client" }],
   vite: {

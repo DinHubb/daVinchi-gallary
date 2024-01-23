@@ -8,7 +8,7 @@ import "lightgallery/css/lightgallery.css";
 import "lightgallery/css/lg-zoom.css";
 import "lightgallery/css/lg-thumbnail.css";
 import { storeToRefs } from "pinia";
-import { useCartStore } from "~/store/cart";
+import { useCartStore } from "~/store/activites";
 
 const plugins = [lgThumbnail, lgZoom];
 const route = useRoute();
@@ -75,3 +75,4 @@ const isInCart = (productId) => cart.some((p) => p.id === productId);
     </div>
   </div>
 </template>
+~/store/activites
