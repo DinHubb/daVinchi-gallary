@@ -222,7 +222,7 @@ const submitFormPay = () => {
       v-if="isFormPayOpen"
       @submit.prevent="submitFormPay"
     >
-      <div class="self-center flex gap-10">
+      <div class="self-center flex flex-wrap gap-10">
         <div class="flex flex-col">
           <label class="mb-2" for="name">Имя и Фамилия</label>
           <input
@@ -322,7 +322,7 @@ const submitFormPay = () => {
           <h5 :class="['mb-2', isWrongForm ? 'text-red-600' : '']">
             Способ оплаты
           </h5>
-          <ul class="flex flex-col gap-2">
+          <ul class="flex flex-col gap-2 mb-4">
             <li>
               <input
                 class="mr-2"

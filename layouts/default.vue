@@ -25,7 +25,7 @@ const toggleMenuFav = () => {
   <div class="flex flex-col min-h-full overflow-hidden text-base">
     <header class="fixed z-30 w-full top-0 left-0">
       <div
-        class="flex justify-between items-center gap-2 p-4 bg-gray-800 text-xl font-semibold text-gray-400"
+        class="flex justify-between items-center gap-2 p-4 bg-gray-800 text-xl font-semibold text-gray-400 max-sm:text-sm"
       >
         <nav class="">
           <ul class="flex gap-4">
@@ -210,9 +210,9 @@ const toggleMenuFav = () => {
       </section>
     </main>
     <footer class="bg-gray-800">
-      <div class="max-w-[1200px] px-4 m-auto">
+      <div class="max-w-[1200px] p-4 m-auto">
         <div
-          class="w-full mx-auto max-w-screen-xl p-6 md:flex md:items-center md:justify-between"
+          class="w-full mx-auto max-w-screen-xl md:flex md:items-center md:justify-between max-sm:text-sm"
         >
           <span class="text-sm sm:text-center text-gray-400"
             >© 2023
@@ -220,7 +220,7 @@ const toggleMenuFav = () => {
             >. All Rights Reserved.
           </span>
           <ul
-            class="flex flex-wrap items-center mt-3 text-sm font-medium text-gray-500 dark:text-gray-400 sm:mt-0"
+            class="flex flex-wrap items-center mt-3 text-sm font-medium text-gray-500 dark:text-gray-400 sm:mt-0 max-sm:text-sm"
           >
             <li>
               <a href="#" class="hover:underline me-4 md:me-6">About</a>

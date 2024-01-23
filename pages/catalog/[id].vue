@@ -30,12 +30,15 @@ const isInCart = (productId) => cart.some((p) => p.id === productId);
 <template>
   <div>
     <div
-      class="flex justify-center gap-12"
+      class="flex justify-center gap-12 max-sm:flex-wrap"
       v-for="item in filteredData"
       :key="item.id"
     >
       <lightgallery :settings="{ speed: 500, plugins: plugins }">
-        <div class="relative w-[560px] h-[560px]" :data-src="item.url">
+        <div
+          class="relative w-[560px] h-[560px] max-lg:w-[380px] max-lg:h-[400px]"
+          :data-src="item.url"
+        >
           <img
             class="w-full h-full object-cover absolute top-0 left-0 cursor-zoom-in"
             :src="item.url"
@@ -45,9 +48,9 @@ const isInCart = (productId) => cart.some((p) => p.id === productId);
       </lightgallery>
       <div class="flex flex-col w-[40%]">
         <span class="inline-block mb-4">Артикул: {{ item.id }}</span>
-        <h2 class="text-2xl mb-10">{{ item.title }}</h2>
-        <p class="mb-10">{{ item.text }}</p>
-        <ul class="flex-[1_1_auto] text-zinc-600">
+        <h2 class="text-2xl mb-6">{{ item.title }}</h2>
+        <p class="mb-6">{{ item.text }}</p>
+        <ul class="flex-[1_1_auto] text-zinc-600 mb-4">
           <p class="mb-2">Теги:</p>
           <li>ВхШ: {{ item.size }}</li>
           <li>время года: {{ item.weather }}</li>

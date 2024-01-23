@@ -219,6 +219,7 @@ const selectedSeason = ref("все");
 const selectedSize = ref("");
 const selectedLocation = ref("");
 const selectedNature = ref("");
+const isOpenFilter = ref(false);
 
 const filteredData = computed(() =>
   data.filter((el) => {
@@ -298,16 +299,28 @@ const handleFavorite = (product) => {
 
 const isInCollects = (productId) =>
   favoriteCollects.some((p) => p.id === productId);
+
+const toggleFilterMenu = () => {
+  isOpenFilter.value = !isOpenFilter.value;
+};
 </script>
 <template>
   <div class="flex flex-col">
-    <div class="self-center w-[80%]">
+    <div class="self-center w-[90%]">
       <p class="mb-6 text-center text-2xl">Новые товары</p>
       <swiper-container
-        slides-per-view="4"
+        slides-per-view="2"
         speed="500"
         css-mode="true"
         pagination="true"
+        :breakpoints="{
+          768: {
+            slidesPerView: 4,
+          },
+          640: {
+            slidesPerView: 3,
+          },
+        }"
       >
         <swiper-slide
           class="relative px-2 pb-10"
@@ -360,29 +373,39 @@ const isInCollects = (productId) =>
       </swiper-container>
     </div>
     <div class="flex flex-col">
-      <div class="relative self-end flex items-center mb-6 w-2/5">
-        <input
-          class="border-2 active:border-gray-800 rounded px-3 py-1 z-20 bg-white/10 w-full"
-          placeholder="поиск"
-          type="text"
-          v-model="search"
-        />
-        <svg
-          class="absolute right-3"
-          width="18px"
-          height="18px"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 88 88"
-        >
-          <path
-            stroke="blue"
-            fill="#757575"
-            d="M85 31.1c-.5-8.7-4.4-16.6-10.9-22.3C67.6 3 59.3 0 50.6.6c-8.7.5-16.7 4.4-22.5 11-11.2 12.7-10.7 31.7.6 43.9l-5.3 6.1-2.5-2.2-17.8 20 9 8.1 17.8-20.2-2.1-1.8 5.3-6.1c5.8 4.2 12.6 6.3 19.3 6.3 9 0 18-3.7 24.4-10.9 5.9-6.6 8.8-15 8.2-23.7zM72.4 50.8c-9.7 10.9-26.5 11.9-37.6 2.3-10.9-9.8-11.9-26.6-2.3-37.6 4.7-5.4 11.3-8.5 18.4-8.9h1.6c6.5 0 12.7 2.4 17.6 6.8 5.3 4.7 8.5 11.1 8.9 18.2.5 7-1.9 13.8-6.6 19.2z"
-          ></path>
-        </svg>
+      <div class="flex justify-between items-center text-center">
+        <button class="self-start max-lg:visible" @click="toggleFilterMenu">
+          {{ isOpenFilter ? "Закрыть" : "Фильтр" }}
+        </button>
+        <div class="relative self-end flex items-center mb-6 w-2/5">
+          <input
+            class="border-2 active:border-gray-800 rounded px-3 py-1 z-20 bg-white/10 w-full"
+            placeholder="поиск"
+            type="text"
+            v-model="search"
+          />
+          <svg
+            class="absolute right-3"
+            width="18px"
+            height="18px"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 88 88"
+          >
+            <path
+              stroke="blue"
+              fill="#757575"
+              d="M85 31.1c-.5-8.7-4.4-16.6-10.9-22.3C67.6 3 59.3 0 50.6.6c-8.7.5-16.7 4.4-22.5 11-11.2 12.7-10.7 31.7.6 43.9l-5.3 6.1-2.5-2.2-17.8 20 9 8.1 17.8-20.2-2.1-1.8 5.3-6.1c5.8 4.2 12.6 6.3 19.3 6.3 9 0 18-3.7 24.4-10.9 5.9-6.6 8.8-15 8.2-23.7zM72.4 50.8c-9.7 10.9-26.5 11.9-37.6 2.3-10.9-9.8-11.9-26.6-2.3-37.6 4.7-5.4 11.3-8.5 18.4-8.9h1.6c6.5 0 12.7 2.4 17.6 6.8 5.3 4.7 8.5 11.1 8.9 18.2.5 7-1.9 13.8-6.6 19.2z"
+            ></path>
+          </svg>
+        </div>
       </div>
       <div class="flex">
-        <div class="text-nowrap pr-6">
+        <div
+          :class="[
+            'text-nowrap pr-6 max-lg:absolute right-0 bg-white z-20 p-4 px-10',
+            isOpenFilter ? 'max-lg:visible' : 'max-lg:hidden',
+          ]"
+        >
           <ul class="flex flex-col gap-4 text-zinc-600">
             <li>
               <ul>
@@ -691,7 +714,9 @@ const isInCollects = (productId) =>
             </li>
           </ul>
         </div>
-        <div class="self-start grid gap-4 grid-cols-4">
+        <div
+          class="self-start grid gap-4 grid-cols-4 max-lg:grid-cols-3 max-sm:grid-cols-2"
+        >
           <div
             class="relative transition duration-300 hover:scale-105 shadow-[rgba(100,100,111,0.2)_0px_7px_29px_0px]"
             v-for="item in filteredData"
