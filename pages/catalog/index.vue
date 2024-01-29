@@ -373,13 +373,16 @@ const toggleFilterMenu = () => {
       </swiper-container>
     </div>
     <div class="flex flex-col">
-      <div class="flex justify-between items-center text-center">
-        <button class="self-start max-lg:visible" @click="toggleFilterMenu">
+      <div class="flex justify-between items-center text-center lg:justify-end">
+        <button
+          class="self-start lg:hidden max-lg:visible"
+          @click="toggleFilterMenu"
+        >
           {{ isOpenFilter ? "Закрыть" : "Фильтр" }}
         </button>
         <div class="relative self-end flex items-center mb-6 w-2/5">
           <input
-            class="border-2 active:border-gray-800 rounded px-3 py-1 z-20 bg-white/10 w-full"
+            class="border-2 active:border-gray-800 rounded pl-3 pr-10 py-1 z-20 bg-white/10 w-full"
             placeholder="поиск"
             type="text"
             v-model="search"
@@ -402,7 +405,7 @@ const toggleFilterMenu = () => {
       <div class="flex">
         <div
           :class="[
-            'text-nowrap pr-6 max-lg:absolute right-0 bg-white z-20 p-4 px-10',
+            'text-nowrap pr-6 max-lg:absolute right-0 bg-white max-lg:z-20 p-4 px-10',
             isOpenFilter ? 'max-lg:visible' : 'max-lg:hidden',
           ]"
         >

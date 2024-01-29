@@ -3,7 +3,7 @@ import MazPhoneNumberInput from "maz-ui/components/MazPhoneNumberInput";
 import { useCartStore } from "~/store/activites";
 import { ref, onMounted, computed } from "vue";
 
-const { cartOrders } = useCartStore();
+const { toggleCart, cartOrders } = useCartStore();
 const phoneNumber = ref();
 const regexForPhone = /[a-zA-Z]/g;
 const countryCode = ref("FR");
