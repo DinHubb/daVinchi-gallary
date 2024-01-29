@@ -83,6 +83,7 @@ const submitFormPay = () => {
     radioDel.value === false ||
     radioPay.value === false
   ) {
+    alert("Ошибка при заполнении формы!");
     return (isWrongForm.value = true);
   }
   alert("Покупка прошла успешно!");

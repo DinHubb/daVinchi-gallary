@@ -46,7 +46,7 @@ const isInCart = (productId) => cart.some((p) => p.id === productId);
           />
         </div>
       </lightgallery>
-      <div class="flex flex-col w-[40%]">
+      <div class="flex flex-col w-full md:w-[40%]">
         <span class="inline-block mb-4">Артикул: {{ item.id }}</span>
         <h2 class="text-2xl mb-6">{{ item.title }}</h2>
         <p class="mb-6">{{ item.text }}</p>
@@ -58,7 +58,7 @@ const isInCart = (productId) => cart.some((p) => p.id === productId);
           <li>природа: {{ item.natural }}</li>
         </ul>
         <button
-          class="self-start text-white bg-gray-800 hover:bg-blue-800 active:opacity-55 font-medium rounded-lg text-sm px-6 py-2.5 text-center inline-flex items-center mr-2"
+          class="self-start text-white text-nowrap bg-gray-800 hover:bg-blue-800 active:opacity-55 font-medium rounded-lg text-sm px-6 py-2.5 text-center inline-flex items-center mr-2"
           @click="handleAddToCart(item)"
         >
           <svg
