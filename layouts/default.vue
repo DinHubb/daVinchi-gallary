@@ -1,23 +1,50 @@
 <script setup>
 import { register } from "swiper/element/bundle";
-import { ref, onMounted } from "vue";
 import { storeToRefs } from "pinia";
 import { useCartStore } from "~/store/activites";
+import IconClose from "~/components/icons/IconClose.vue";
 
 register();
-const { cartCount, favoriteCount } = storeToRefs(useCartStore());
-const { favoriteProducts } = useCartStore();
+const { cartCount, collectionCount, collectionProducts } = storeToRefs(
+  useCartStore()
+);
+const { toggleFavorite, loadCart, loadCollection } = useCartStore();
 const isPreloading = ref(true);
-const isMenuFavOpen = ref(false);
+const isMenuCollectionOpen = ref(false);
+
+const closeMenuOnClickOutside = (evt) => {
+  const collectionMenuElement = document.querySelector(".collection__menu");
+
+  if (
+    isMenuCollectionOpen.value &&
+    !collectionMenuElement.contains(evt.target)
+  ) {
+    isMenuCollectionOpen.value = false;
+  }
+};
+
+onBeforeUnmount(() => {
+  document.removeEventListener("click", closeMenuOnClickOutside);
+});
 
 onMounted(() => {
   setTimeout(() => {
     isPreloading.value = !isPreloading.value;
   }, 500);
+
+  document.addEventListener("click", closeMenuOnClickOutside);
+
+  loadCart();
+
+  loadCollection();
 });
 
-const toggleMenuFav = () => {
-  isMenuFavOpen.value = !isMenuFavOpen;
+const toggleMenuCollection = () => {
+  isMenuCollectionOpen.value = !isMenuCollectionOpen.value;
+};
+
+const handleFavorite = (product) => {
+  return toggleFavorite(product);
 };
 </script>
 
@@ -56,12 +83,13 @@ const toggleMenuFav = () => {
             </li>
           </ul>
         </nav>
-        <div class="flex items-center gap-8">
-          <button class="relative" @click="toggleMenuFav">
+        <div class="flex items-center gap-8 max-sm:gap-4">
+          <button class="relative" @click.stop="toggleMenuCollection">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="32px"
               height="32px"
+              class="max-sm:w-6 max-sm:h-6"
               viewBox="0 0 24 24"
               fill="none"
             >
@@ -73,16 +101,21 @@ const toggleMenuFav = () => {
             </svg>
             <span
               class="absolute -top-2 -right-3 min-w-6 h-6 px-2 bg-slate-700 rounded-full text-white text-sm leading-[24px]"
-              v-show="favoriteCount > 0"
-              >{{ favoriteCount }}
+              v-show="collectionCount > 0"
+              >{{ collectionCount }}
             </span>
           </button>
-          <div class="relative flex">
+          <button class="relative flex">
             <nuxt-link to="/cart" class="mr-3">
               <svg
                 width="32px"
                 height="32px"
-                style="stroke: #1956e3"
+                class="max-sm:w-6 max-sm:h-6"
+                :class="[
+                  $route.path === '/cart'
+                    ? ' stroke-white'
+                    : 'stroke-[#1956e3]',
+                ]"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 64 64"
               >
@@ -105,98 +138,72 @@ const toggleMenuFav = () => {
                 >{{ cartCount }}
               </span>
             </nuxt-link>
-          </div>
+          </button>
         </div>
-        <!-- <div class="fixed right-0 top-0 flex bg-white w-[40%] h-full">
-          <div>
-            <button>
-              <svg
-                role="presentation"
-                class="t1002__wishlistwin-close-icon"
-                width="23px"
-                height="23px"
-                viewBox="0 0 23 23"
-                version="1.1"
-                xmlns="http://www.w3.org/2000/svg"
-                xmlns:xlink="http://www.w3.org/1999/xlink"
-              >
-                <g
-                  stroke="none"
-                  stroke-width="1"
-                  fill="#000"
-                  fill-rule="evenodd"
-                >
-                  <rect
-                    transform="translate(11.313708, 11.313708) rotate(-45.000000) translate(-11.313708, -11.313708) "
-                    x="10.3137085"
-                    y="-3.6862915"
-                    width="2"
-                    height="30"
-                  ></rect>
-                  <rect
-                    transform="translate(11.313708, 11.313708) rotate(-315.000000) translate(-11.313708, -11.313708) "
-                    x="10.3137085"
-                    y="-3.6862915"
-                    width="2"
-                    height="30"
-                  ></rect>
-                </g>
-              </svg>
+        <div
+          v-if="isMenuCollectionOpen"
+          class="collection__menu fixed right-0 top-0 bg-white w-[47%] h-full p-6 text-black shadow-[rgba(100,100,111,0.2)_0px_7px_29px_0px] transition-all duration-300 max-lg:w-full max-sm:px-4"
+        >
+          <div class="flex flex-col w-full h-full overflow-hidden">
+            <button class="self-end" @click="toggleMenuCollection">
+              <icon-close />
             </button>
-            <h3 class="pb-10 border-b-2 border-black">Избранное:</h3>
-            <ul>
-              <li v-if="item in favoriteProducts">
-                <div>
-                  <img :src="item.url" :alt="item.alt" />
-                </div>
-                <div>
-                  <p>{{ item.title }}</p>
-                  <span>{{ item.id }}</span>
-                  <span>{{ item.staticPrice }}</span>
-                </div>
-                <button>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="28px"
-                    height="28px"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                  >
-                    <path
-                      d="M20.5001 6H3.5"
-                      stroke="#1C274C"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                    />
-                    <path
-                      d="M18.8332 8.5L18.3732 15.3991C18.1962 18.054 18.1077 19.3815 17.2427 20.1907C16.3777 21 15.0473 21 12.3865 21H11.6132C8.95235 21 7.62195 21 6.75694 20.1907C5.89194 19.3815 5.80344 18.054 5.62644 15.3991L5.1665 8.5"
-                      stroke="#1C274C"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                    />
-                    <path
-                      d="M9.5 11L10 16"
-                      stroke="#1C274C"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                    />
-                    <path
-                      d="M14.5 11L14 16"
-                      stroke="#1C274C"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                    />
-                    <path
-                      d="M6.5 6C6.55588 6 6.58382 6 6.60915 5.99936C7.43259 5.97849 8.15902 5.45491 8.43922 4.68032C8.44784 4.65649 8.45667 4.62999 8.47434 4.57697L8.57143 4.28571C8.65431 4.03708 8.69575 3.91276 8.75071 3.8072C8.97001 3.38607 9.37574 3.09364 9.84461 3.01877C9.96213 3 10.0932 3 10.3553 3H13.6447C13.9068 3 14.0379 3 14.1554 3.01877C14.6243 3.09364 15.03 3.38607 15.2493 3.8072C15.3043 3.91276 15.3457 4.03708 15.4286 4.28571L15.5257 4.57697C15.5433 4.62992 15.5522 4.65651 15.5608 4.68032C15.841 5.45491 16.5674 5.97849 17.3909 5.99936C17.4162 6 17.4441 6 17.5 6"
-                      stroke="#1C274C"
-                      stroke-width="1.5"
-                    />
-                  </svg>
+            <h3
+              class="py-4 mb-6 border-b-2 text-2xl border-neutral-200 max-sm:text-xl tracking-wide"
+            >
+              Избранное:
+            </h3>
+            <ul
+              class="w-full h-full overflow-y-auto overflow-x-hidden flex flex-col gap-4 p-2 max-sm:p-0"
+              :class="
+                collectionProducts.length < 1
+                  ? 'justify-center items-center'
+                  : ''
+              "
+            >
+              <p
+                class="text-center text-black/70"
+                v-if="collectionProducts.length < 1"
+              >
+                Добавтье ваши любимые товары чтобы увидеть!
+              </p>
+              <li class="relative" v-else v-for="item in collectionProducts">
+                <nuxt-link
+                  :to="`/catalog/${item.id}`"
+                  @click="toggleMenuCollection"
+                  class="flex justify-between items-center gap-6"
+                >
+                  <div class="flex items-center gap-4">
+                    <div
+                      class="min-w-36 min-h-36 max-sm:min-w-28 max-sm:min-h-28"
+                    >
+                      <img
+                        :src="item.url"
+                        :alt="item.alt"
+                        class="w-36 h-36 max-sm:w-28 max-sm:h-28"
+                      />
+                    </div>
+                    <div class="relative">
+                      <p class="text-lg max-sm:text-sm">{{ item.title }}</p>
+                      <span class="text-xs text-black/60 absolute"
+                        >#{{ item.id }}</span
+                      >
+                    </div>
+                  </div>
+                  <div class="relative flex gap-4">
+                    <span class="text-nowrap">{{ item.price }}</span>
+                  </div>
+                </nuxt-link>
+                <button
+                  class="absolute top-0 right-0"
+                  @click="handleFavorite(item)"
+                >
+                  <icons-icon-remove />
                 </button>
               </li>
             </ul>
           </div>
-        </div> -->
+        </div>
       </div>
     </header>
     <main class="flex-[1_1_auto]">
