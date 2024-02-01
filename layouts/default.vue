@@ -249,4 +249,3 @@ const handleFavorite = (product) => {
     </footer>
   </div>
 </template>
-~/store/activites
